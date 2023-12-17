@@ -1,17 +1,16 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import {TypeOrmModule} from "@nestjs/typeorm";
-import {ConfigModule} from "@nestjs/config";
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
+import { UtilsModule } from './utils/utils.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath:
-          process.env.NODE_ENV == 'prod'
-              ? '.prod.env'
-              : '.dev.env',
+      envFilePath: process.env.NODE_ENV == 'prod' ? '.prod.env' : '.dev.env',
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -23,6 +22,8 @@ import {ConfigModule} from "@nestjs/config";
       entities: [],
       synchronize: true,
     }),
+    AuthModule,
+    UtilsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
